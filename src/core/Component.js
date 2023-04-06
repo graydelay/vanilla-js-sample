@@ -9,18 +9,27 @@ export default class Component {
     this.render();
   }
 
-  setup() { };
+  setup () { };
 
-  template() { return ''; }
+  template () { return ''; }
 
-  render() {
+  render () {
     this.$target.innerHTML = this.template();
   }
 
-  setEvent() {};
+  setEvent () {};
 
-  setState(newState) {
+  setState (newState) {
     this.state = { ...this.state, ...newState };
     this.render();
+  }
+
+  addEvent (eventType, selector, callback) {
+    const children = [ ...this.$target.querySelectorAll(selector) ];
+
+    this.$target.addEventListener(eventType, event => {
+      if (!event.target.closest(selector)) return false;
+      callback(event);
+    })
   }
 }

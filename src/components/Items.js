@@ -2,11 +2,11 @@ import Component from "../core/Component.js";
 
 export default class Items extends Component {
 
-  setup() {
+  setup () {
     this.state = { items: ['item1', 'item2'] };
   }
 
-  template() {
+  template () {
     const { items } = this.state;
       return `
         <ul>
@@ -21,20 +21,18 @@ export default class Items extends Component {
       `
   }
 
-  setEvent() {
-    this.$target.addEventListener("click", ({ target }) => {
+  setEvent () {
+    this.addEvent("click", ".addBtn", ({ target }) => {
+      const { items } = this.state;
+
+      this.setState({ items: [ ...items, `item${items.length + 1}` ] });
+    });
+
+    this.addEvent("click", ".deleteBtn", ({ target }) => {
       const items = [ ...this.state.items ];
 
-      if (target.classList.contains("addBtn")) {
-        this.setState({ items: [ ...items, `item${items.length + 1}` ] });
-      }
-
-      if (target.classList.contains("deleteBtn")) {
-        items.splice(target.dataset.index, 1);
-        this.setState({ items });
-      }
-    })
-
-
+      items.splice(target.dataset.index, 1);
+      this.setState({ items });
+    });
   }
 }

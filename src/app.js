@@ -1,7 +1,7 @@
 import Items from "./components/Items.js";
 
 class App {
-  constructor() {
+  constructor () {
     const $app = document.querySelector("#app");
     new Items($app);
   }

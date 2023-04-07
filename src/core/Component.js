@@ -1,9 +1,11 @@
 export default class Component {
   $target;
+  props; // 부모 컴포넌트가 자식 컴포넌트에게 상태 혹은 메소드를 넘겨주기 위함
   state;
 
-  constructor ($target) {
+  constructor ($target, props) {
     this.$target = $target;
+    this.props = props;
     this.setup();
     this.setEvent();
     this.render();
@@ -11,10 +13,13 @@ export default class Component {
 
   setup () { };
 
+  mounted () { }; // render 이후에 추가적인 기능 수행
+
   template () { return ''; }
 
   render () {
     this.$target.innerHTML = this.template();
+    this.mounted(); // render 후에 mounted가 실행
   }
 
   setEvent () {};
@@ -22,7 +27,7 @@ export default class Component {
   setState (newState) {
     this.state = { ...this.state, ...newState };
     this.render();
-  }
+  } // setState -> render -> mounted
 
   addEvent (eventType, selector, callback) {
     const children = [ ...this.$target.querySelectorAll(selector) ];
